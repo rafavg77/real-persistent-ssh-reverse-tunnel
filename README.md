@@ -22,3 +22,9 @@
   ssh -l <user> -p <port> localhost
 ```  
 ###6.- Enjoy
+
+## License
+
+###MIT Licence
+
+Free Software Hell Yeah !! 
