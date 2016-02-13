@@ -26,9 +26,9 @@ checarInternet(){
 createTunnel() {
   /usr/bin/ssh -N -R $remotePort:$remoteHost:$localPort $remoteUser@$remoteIP
   if [[ $? -eq 0 ]]; then
-    echo Tunnel to jumpbox created successfully
+    echo Tunnel to $remoteIP created successfully
   else
-    echo An error occurred creating a tunnel to jumpbox. RC was $?
+    echo An error occurred creating a tunnel to $remoteIP. RC was $?
   fi
 }
 
@@ -36,14 +36,14 @@ pidSSH(){
         checarInternet
         if [ "$isAvailable" == "$online" ]
         then
-                /bin/pidof ssh
+                pgrep -f -x '/usr/bin/ssh -N -R $remotePort:$remoteHost:$localPort $remoteUser@$remoteIP'
                 if [[ $? -ne 0 ]]; then
                         echo Creating new tunnel connection
                         createTunnel
                 fi
         elif [ "$isAvailable" == "$offline" ]
         then
-                kill -9 $(/bin/pidof ssh)
+                kill -9 $(pgrep -f -x '/usr/bin/ssh -N -R $remotePort:$remoteHost:$localPort $remoteUser@$remoteIP')
         fi
 }
 pidSSH
